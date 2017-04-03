@@ -1,16 +1,27 @@
-function hide_element(){
+function hideFormCard(){
   $(this).hide();
-  $('#calculating-card')
+  var cc = $('#calculating-card')
+    .removeAttr('hidden')
+    .addClass('animated fadeIn')
+
+  hCC = hideCalculatingCard.bind(cc)
+  setTimeout(hCC, 5000);
+}
+
+function hideCalculatingCard(){
+  $(this).addClass('animated fadeOut')
+  $(this).hide();
+  $('#results-card')
     .removeAttr('hidden')
     .addClass('animated fadeIn');
 }
 
 $('#directions-form').submit(function(e) {
-  $('#directions-card')
+  $('#form-card')
     .addClass('animated fadeOut')
 
-  $('#directions-card')
-  .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', hide_element);
+  $('#form-card')
+  .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', hideFormCard);
 
   var formData = $(this).serialize();
   $.ajax({
