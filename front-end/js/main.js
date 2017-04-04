@@ -1,4 +1,5 @@
 function hideFormCard(){
+  // form-card -> calculating-card
   $(this).hide();
   var cc = $('#calculating-card')
     .removeAttr('hidden')
@@ -9,6 +10,7 @@ function hideFormCard(){
 }
 
 function hideCalculatingCard(){
+  // calculating-card -> results-card
   $(this).addClass('animated fadeOut')
   $(this).hide();
   $('#results-card')
@@ -17,6 +19,7 @@ function hideCalculatingCard(){
 }
 
 $('#directions-form').submit(function(e) {
+  // override behavior of form
   $('#form-card')
     .addClass('animated fadeOut')
 
