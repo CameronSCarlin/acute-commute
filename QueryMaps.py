@@ -15,11 +15,11 @@ class QueryMaps:
         self._dir_result = None
         self.update_query(start, end, mode, departure_time, arrival_time)
 
-    def get_departure_time(self):
-        return self._departure_time
-
     def get_arrival_time(self):
         return self._arrival_time
+
+    def get_departure_time(self):
+        return self._departure_time
 
     def get_directions_result(self):
         return self._dir_result
