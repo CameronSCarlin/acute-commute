@@ -25,6 +25,12 @@ class QueryParser(QueryMaps):
         """
         return self._dir_result['legs'][0]['duration']['text']
 
+    def parse_modes(self):
+        return [segment['travel_mode'] for segment in self.parse_segments()]
+
+    def parse_num_segments(self):
+        return len(self.parse_segments())
+
     def parse_start_coordinate(self):
         """
         :return:
@@ -38,6 +44,11 @@ class QueryParser(QueryMaps):
 def main():
     pq = QueryParser("101 Howard Street San Francisco", "Fisherman's Wharf", "transit")
     pq.print_directions()
+    # print pq.parse_cost()
+    # print pq.parse_distance()
+    # print pq.parse_duration()
+    print len(pq.parse_segments())
+    # print pq.parse_start_coordinate()
 
 if __name__ == '__main__':
     main()
