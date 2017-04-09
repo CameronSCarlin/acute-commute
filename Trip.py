@@ -21,15 +21,15 @@ class Trip:
         # the end coordinates of the last stop are the start coordinates of the next segment
         for i, segment in enumerate(self._query_parser.parse_segments()):
             if segment['travel_mode'] == 'WALKING':
-                qp = QueryParser(self._query_parser.get_start(),
-                                 self._query_parser.get_end(),
+                qp = QueryParser(segment['start_location'],
+                                 segment['end_location'],
                                  'walking',
                                  self._query_parser.get_departure_time(),
                                  self._query_parser.get_arrival_time())
                 self._legs[i] = Leg(qp, self._acceptable_modes)
             else:
-                qp = QueryParser(self._query_parser.get_start(),
-                                 self._query_parser.get_end(),
+                qp = QueryParser(segment['start_location'],
+                                 segment['end_location'],
                                  lower(segment['travel_mode']),
                                  self._query_parser.get_departure_time(),
                                  self._query_parser.get_arrival_time())
@@ -40,12 +40,15 @@ class Trip:
 
 
 def main():
-    qp = QueryParser("101 Howard Street San Francisco", "Fisherman's Wharf", "transit")
-    t = Trip(qp, ['driving', 'bicycling'])
+    qp = QueryParser("101 Howard Street San Francisco", "502 Cleveland St. Redwood City, CA", "transit")
+    t = Trip(qp, ['bicycling', 'driving'])
     legs = t.get_legs()
     print legs
-    print legs[0].get_duration()
-    print legs[0].get_mode()
+    for key in legs.keys():
+        print legs[key]
+        print legs[key].get_duration()
+        print legs[key].get_mode()
+
 
 if __name__ == "__main__":
     main()
