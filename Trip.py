@@ -20,19 +20,14 @@ class Trip:
     def _build_legs(self):
         # the end coordinates of the last stop are the start coordinates of the next segment
         for i, segment in enumerate(self._query_parser.parse_segments()):
+            qp = QueryParser(segment['start_location'],
+                             segment['end_location'],
+                             lower(segment['travel_mode']),
+                             self._query_parser.get_departure_time(),
+                             self._query_parser.get_arrival_time())
             if segment['travel_mode'] == 'WALKING':
-                qp = QueryParser(segment['start_location'],
-                                 segment['end_location'],
-                                 'walking',
-                                 self._query_parser.get_departure_time(),
-                                 self._query_parser.get_arrival_time())
                 self._legs[i] = Leg(qp, self._acceptable_modes)
             else:
-                qp = QueryParser(segment['start_location'],
-                                 segment['end_location'],
-                                 lower(segment['travel_mode']),
-                                 self._query_parser.get_departure_time(),
-                                 self._query_parser.get_arrival_time())
                 self._legs[i] = Leg(qp, [segment['travel_mode']])
 
     def get_legs(self):
