@@ -39,7 +39,7 @@ class QueryParser(QueryMaps):
 
     def parse_segments(self):
         return self._dir_result['legs'][0]['steps']
-s
+
 
 def main():
     pq = QueryParser("101 Howard Street San Francisco", "Fisherman's Wharf", "walking")
