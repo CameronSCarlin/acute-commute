@@ -26,10 +26,12 @@ $('#directions-form').submit(function(e) {
   $('#form-card')
   .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', hideFormCard);
 
+  endPoint = 'http://127.0.0.1:5000/trip'
+
   var formData = $(this).serialize();
   $.ajax({
     type: 'POST',
-    url: '<api-endpoint>',
+    url: 'http://127.0.0.1:5000/trip',
     data: formData,
     dataType: 'json',
     success: function(data){
