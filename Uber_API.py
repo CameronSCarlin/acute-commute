@@ -34,11 +34,11 @@ def uber_estimate(start_lat, start_long, end_lat, end_long):
     end_latitude = end_latitude,
     end_longitude = end_longitude,
     seat_count = 1
-    )
+    ).json['prices'][0]
     # Uber Type, Distance (miles, float), Duration (seconds, float), low $, high $
-    return Uber['display_name'],Uber['distance'],Uber['duration'], Uber['low_estimate'], Uber['high_estimate']
+    return estimate['display_name'],estimate['distance'],estimate['duration'], estimate['low_estimate'], estimate['high_estimate']
 
 # Input: float start_lat, start_long, end_lat, end_long
 # Output: str Uber type, float distance, duration, low price, high price
-uber_estimate(start_latitude, start_longitude, end_latitude, end_longitude)
+print uber_estimate(start_latitude, start_longitude, end_latitude, end_longitude)
 
