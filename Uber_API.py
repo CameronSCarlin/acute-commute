@@ -1,23 +1,6 @@
 
 # coding: utf-8
 
-# In[3]:
-
-from uber_rides.session import Session
-from uber_rides.client import UberRidesClient
-import keys
-
-
-# In[18]:
-
-# Inputs
-start_latitude, start_longitude = 37.8081343, -122.4096086
-end_latitude, end_longitude = 37.7910977, -122.3928055
-seat_count = 1
-
-
-# In[35]:
-
 from uber_rides.session import Session
 from uber_rides.client import UberRidesClient
 import keys
@@ -39,6 +22,13 @@ def uber_estimate(start_lat, start_long, end_lat, end_long):
     return estimate['display_name'],estimate['distance'],estimate['duration'], estimate['low_estimate'], estimate['high_estimate']
 
 # Input: float start_lat, start_long, end_lat, end_long
-# Output: str Uber type, float distance, duration, low price, high price
-print uber_estimate(start_latitude, start_longitude, end_latitude, end_longitude)
 
+# Inputs
+# start_latitude, start_longitude = 37.8081343, -122.4096086
+# end_latitude, end_longitude = 37.7910977, -122.3928055
+# seat_count = 1
+
+# Output: str Uber type, float distance, duration, low price, high price
+# (u'POOL', 1.77, 720, 3.0, 6.0)
+
+# print uber_estimate(start_latitude, start_longitude, end_latitude, end_longitude)
