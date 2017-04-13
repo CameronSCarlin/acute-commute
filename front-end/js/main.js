@@ -31,7 +31,7 @@ $('#directions-form').submit(function(e) {
   var formData = $(this).serialize();
   $.ajax({
     type: 'POST',
-    url: 'http://127.0.0.1:5000/trip',
+    url: endPoint,
     data: formData,
     dataType: 'json',
     success: function(data){
