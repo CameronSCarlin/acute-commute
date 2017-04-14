@@ -1,0 +1,2 @@
+googlemaps>=2.4.6,<2.5
+uber-rides>=0.4.1,<0.5
