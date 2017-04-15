@@ -7,13 +7,10 @@ from QueryParser import QueryParser
 class Trip:
     """docstring for Trip"""
 
-    def __init__(self, query_parser, acceptable_modes):
+    def __init__(self, start, end, acceptable_modes, departure_time=None, arrival_time=None):
 
-        self._query_parser = query_parser
-
-        # {'walk': True, 'drive': True, 'bike': True, 'skate': False, 'ride': True}
         self._acceptable_modes = acceptable_modes
-
+        self._query_parser = QueryParser(start, end, acceptable_modes[0], departure_time=None, arrival_time=None)
         self._legs = defaultdict(Leg)
         self._build_legs()
 
@@ -28,15 +25,17 @@ class Trip:
             if segment['travel_mode'] == 'WALKING':
                 self._legs[i] = Leg(qp, self._acceptable_modes)
             else:
-                self._legs[i] = Leg(qp, [segment['travel_mode']])
+                self._legs[i] = Leg(stqp, [segment['travel_mode']])
 
     def get_legs(self):
         return self._legs
 
+    def set_query_parser(self, query_parser):
+        self._query_parser = query_parser
+
 
 def main():
-    qp = QueryParser("101 Howard Street San Francisco", "502 Cleveland St. Redwood City, CA", "transit")
-    t = Trip(qp, ['bicycling', 'driving'])
+    t = Trip("101 Howard Street San Francisco", "502 Cleveland St. Redwood City, CA", ["transit", 'bicycling', 'driving'])
     legs = t.get_legs()
     print legs
     for key in legs.keys():
