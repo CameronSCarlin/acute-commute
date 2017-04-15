@@ -1,0 +1,12 @@
+{
+  "name": "front-end",
+  "homepage": "https://github.com/CameronSCarlin/acute-commute",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "animate.css": "^3.5.2",
+    "materialize": "^0.98.1"
+  }
+}
