@@ -16,8 +16,8 @@ class Trip:
         self.set_query_parser(QueryParser(start, end, acceptable_modes[0], departure_time=None, arrival_time=None))
         if len(self._acceptable_modes) > 1:
             self._find_best_mode()
-            self._legs = defaultdict(Leg)
-            self._build_legs()
+        self._legs = defaultdict(Leg)
+        self._build_legs()
 
     def _build_legs(self):
         # the end coordinates of the last stop are the start coordinates of the next segment
@@ -60,7 +60,7 @@ class Trip:
 
 
 def main():
-    t = Trip("101 Howard Street San Francisco", "502 Cleveland St. Redwood City, CA", ['transit', 'bicycling'])
+    t = Trip("101 Howard Street San Francisco", "502 Cleveland St. Redwood City, CA", ['bicycling'])
     legs = t.get_legs()
     print legs
     print t.get_duration_minutes()
