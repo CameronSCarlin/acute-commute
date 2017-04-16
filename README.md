@@ -9,11 +9,22 @@ $ pip install -r requirements.txt
 
 ## Deployment
 ```bash
+# install front-end dependencies
 $ cd static
-# requires nodejs & bower
 $ bower install
 $ cd ..
-# build the dockerfile
+
+# setup a docker aws instance
+# REQUIRES AWS CREDENTIALS
+$ docker-machine create --driver amazonec2 aws-docker
+$ eval $(docker-machine env aws-docker)
+
+# build the image & run in a container
+$ docker build -t acute .
+$ docker run --name acute -p 80:80 acute
+
+# requires correct security-group permissions
+# on AWS but should be able to use at this point
 ```
 
 ## Team
