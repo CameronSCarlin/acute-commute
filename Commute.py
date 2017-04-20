@@ -30,9 +30,9 @@ class Commute(PricedTrip):
         for key in self._queries_dict.keys():
             if key in self.get_acceptable_modes():
                 if key == 'transit':
-                    self._queries_dict[key] = self._quick_transit_trip(key)
+                    self._queries_dict[key] = self._transit_trip_factory(key)
                 else:
-                    self._queries_dict[key] = self._quick_leg(key)
+                    self._queries_dict[key] = self._leg_factory(key)
 
     def _generate_best_stats(self):
         best_trip = self._queries_dict[self._primary_mode]
@@ -50,18 +50,18 @@ class Commute(PricedTrip):
             return None
         return self._queries_dict[self._primary_mode]
 
-    def _quick_leg(self, mode):
+    def _leg_factory(self, mode):
         return Leg(self._start, self._end, mode, self._departure_time, self._arrival_time)
 
-    def _quick_transit_trip(self, mode):
+    def _transit_trip_factory(self, mode):
         return TransitTrip(self._start, self._end, mode, self._departure_time, self._arrival_time)
 
-    def _quick_parse(self, mode):
+    def _query_parse_factory(self, mode):
         return QueryParser(self._start, self._end, mode, self._departure_time, self._arrival_time)
 
 
 def main():
-    t = Commute("101 Howard Street San Francisco", "502 Cleveland St. Redwood City, CA", ['transit', 'bicycling', 'scooter'])
+    t = Commute("101 Howard Street San Francisco", "502 Cleveland St. Redwood City, CA", ['transit'])
     print "Trip details:"
     print "Primary mode: %s" % t.get_primary_mode()
     if t.get_primary_mode() == 'transit':
