@@ -20,7 +20,7 @@ class Leg(PricedTrip):
         self._find_best_mode()
 
     def _check_scooter(self):
-        qp = self._quick_parse('bicycling')
+        qp = self._query_parse_factory('bicycling')
         if self._format_duration_as_minutes(qp.parse_duration()) < self.get_duration():
             self._generate_stats_from_google(qp)
 
@@ -29,7 +29,7 @@ class Leg(PricedTrip):
 
     def _check_google(self, mode):
 
-        qp = self._quick_parse(mode)
+        qp = self._query_parse_factory(mode)
         if self._format_duration_as_minutes(qp.parse_duration()) < self.get_duration():
             self._generate_stats_from_google(qp)
 
@@ -39,7 +39,7 @@ class Leg(PricedTrip):
             end_lat, end_lon = self._end['lat'], self._end['lng']
         except (KeyError, TypeError):
             print 'using google for uber'
-            qp = self._quick_parse('driving')
+            qp = self._query_parse_factory('driving')
             start_dict = qp.parse_start_coordinate()
             end_dict = qp.parse_end_coordinate()
             start_lat, start_lon = start_dict['lat'], start_dict['lng']
@@ -86,5 +86,5 @@ class Leg(PricedTrip):
     def get_mode(self):
         return self._mode
 
-    def _quick_parse(self, mode):
+    def _query_parse_factory(self, mode):
         return QueryParser(self._start, self._end, mode, self._departure_time, self._arrival_time)
