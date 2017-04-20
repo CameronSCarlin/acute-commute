@@ -7,10 +7,15 @@ class QueryParser(QueryMaps):
     """
     def __init__(self, start, end, mode, departure_time=None, arrival_time=None):
         QueryMaps.__init__(self, start, end, mode, departure_time, arrival_time)
+
         self._steps = []
 
     def parse_cost(self):
-        return self._dir_result['fare']['value']
+        try:
+            return self._dir_result['fare']['value']
+        except KeyError:
+            print "No fare"
+            return 0
 
     def parse_distance(self):
         """
@@ -37,12 +42,18 @@ class QueryParser(QueryMaps):
         """
         return self._dir_result['legs'][0]['start_location']
 
+    def parse_end_coordinate(self):
+        """
+        :return:
+        """
+        return self._dir_result['legs'][0]['end_location']
+
     def parse_segments(self):
         return self._dir_result['legs'][0]['steps']
 
 
 def main():
-    pq = QueryParser("101 Howard Street San Francisco", "Fisherman's Wharf", "walking")
+    pq = QueryParser("101 Howard Street San Francisco", "Fisherman's Wharf", "transit")
     pq.print_directions()
     # print pq.parse_cost()
     # print pq.parse_distance()
