@@ -11,15 +11,12 @@ class PricedTrip(Trip):
     def __init__(self, start, end, acceptable_modes, departure_time=None, arrival_time=None):
         Trip.__init__(self, start, end, acceptable_modes, departure_time, arrival_time)
 
-        self._directions = {'directions': []}
+        self._directions = {}
         self._distance = None
         self._duration = 0.0
         self._price_range = [None, None]
         self._start_location = {'lat': None, 'lng': None}
         self._end_location = {'lat': None, 'lng': None}
-
-    def append_direction(self, step_dict):
-        self._directions['directions'].append(step_dict)
 
     def get_directions(self):
         return self._directions.copy()
