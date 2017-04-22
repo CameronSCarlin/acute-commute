@@ -14,7 +14,6 @@ class QueryParser(QueryMaps):
         try:
             return self._dir_result['fare']['value']
         except KeyError:
-            print "No fare"
             return 0
 
     def parse_distance(self):
@@ -63,4 +62,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

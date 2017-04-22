@@ -2,17 +2,16 @@ from Leg import Leg
 from TransitTrip import TransitTrip
 from PricedTrip import PricedTrip
 
-
 class Commute(PricedTrip):
     """
     docstring for Trip
     """
+    available_modes = ['transit', 'driving', 'walking', 'scooter', 'bicycling', 'uber']
 
     def __init__(self, start, end, acceptable_modes, departure_time=None, arrival_time=None):
         PricedTrip.__init__(self, start, end, acceptable_modes, departure_time, arrival_time)
 
-        self._trips_dict = {'transit': None, 'driving': None, 'walking': None,
-                            'scooter': None, 'bicycling': None, 'uber': None}
+        self._trips_dict = {mode: None for mode in Commute.available_modes}
         self._primary_mode = None
         self._best_trip = None
         self._legs = []

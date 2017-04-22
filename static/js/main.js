@@ -1,4 +1,6 @@
-function hideFormCard(){
+// function
+
+function hideFormCard(formData){
   // form-card -> calculating-card
   $(this).hide();
   var cc = $('#calculating-card')
@@ -6,13 +8,44 @@ function hideFormCard(){
     .addClass('animated fadeIn')
 
   hCC = hideCalculatingCard.bind(cc)
-  setTimeout(hCC, 5000);
+
+  var endPoint = '/trip'
+
+  $.ajax({
+    type: 'POST',
+    url: endPoint,
+    data: formData,
+    dataType: 'json',
+    success: function(data){
+      hCC(data);
+    },
+    error: function(){
+      console.log('functionality not implemented');
+    }
+  })
+
 }
 
-function hideCalculatingCard(){
+function hideCalculatingCard(data){
   // calculating-card -> results-card
   $(this).addClass('animated fadeOut')
   $(this).hide();
+
+  // add the data to the results card
+  // debugger;
+  var legs = data.legs;
+  legs.forEach(function(leg, index){
+    var appendStr = '<div>'
+    appendStr += '<h4>' + 'Leg #' + (index + 1) + '</h4>'
+    appendStr += '<ul id="leg-metadata">'
+    appendStr += '<li>' + 'mode: '+ leg.mode + '</li>'
+    appendStr += '<li>' + 'duration: '+ leg.duration + '</li>'
+    appendStr += '<li>' + 'price_range: '+ leg.price_range + '</li>'
+    appendStr += '</ul>'
+    appendStr += '</div>'
+    $('#results-card .card-action').append(appendStr);
+  })
+
   $('#results-card')
     .removeAttr('hidden')
     .addClass('animated fadeIn');
@@ -23,23 +56,10 @@ $('#directions-form').submit(function(e) {
   $('#form-card')
     .addClass('animated fadeOut')
 
-  $('#form-card')
-  .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', hideFormCard);
-
-  endPoint = '/trip'
-
   var formData = $(this).serialize();
-  $.ajax({
-    type: 'POST',
-    url: endPoint,
-    data: formData,
-    dataType: 'json',
-    success: function(data){
-      console.log(data);
-    },
-    error: function(){
-      console.log('functionality not implemented');
-    }
-  })
+  hideFormCardPartial = hideFormCard.bind(this, formData)
+  $('#form-card')
+  .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', hideFormCardPartial);
+
   e.preventDefault();
 });
