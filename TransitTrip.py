@@ -32,6 +32,8 @@ class TransitTrip(PricedTrip):
 
     def _build_transit_legs(self):
         self._original_query = QueryParser(self._start, self._end, 'transit', self._departure_time, self._arrival_time)
+        self.set_start_loc_from_dict(self._original_query.parse_start_coordinate())
+        self.set_end_loc_from_dict(self._original_query.parse_end_coordinate())
         modes_abridged = False
         for segment in self._original_query.parse_segments():
             if segment['travel_mode'] == 'WALKING':
