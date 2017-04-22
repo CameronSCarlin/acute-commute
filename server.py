@@ -1,4 +1,5 @@
 from flask import Flask, request, send_file
+from Commute import Commute
 app = Flask(__name__)
 
 
@@ -7,10 +8,12 @@ def trip():
     form = request.form
     start = form['start']
     end = form['end']
-    walking = 'walking' in form
-    bicycling = 'bicycling' in form
-    driving = 'driving' in form
-    transit = 'transit' in form
+
+    modes = [mode for mode in Commute.available_modes if mode in form]
+    comm = Commute(start=start,
+                    end=end,
+                    acceptable_modes=modes)
+    return comm.get_directions_json()
 
 
 @app.route("/")
