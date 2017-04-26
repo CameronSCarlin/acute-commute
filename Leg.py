@@ -1,5 +1,8 @@
+from __future__ import print_function
+
 import re
-from string import lower
+
+lower = str.lower
 from PricedTrip import PricedTrip
 import Uber_API
 
@@ -52,7 +55,7 @@ class Leg(PricedTrip):
             start_lat, start_lon = self._start['lat'], self._start['lng']
             end_lat, end_lon = self._end['lat'], self._end['lng']
         except (KeyError, TypeError):
-            print 'using google for uber'
+            print('using google for uber')
             qp = self.query_parse_factory('driving')
             start_dict = qp.parse_start_coordinate()
             end_dict = qp.parse_end_coordinate()
@@ -119,7 +122,7 @@ class Leg(PricedTrip):
 
 def main():
     leg = Leg('101 Howard Stree San Francisco, CA', 'Fisherman\'s Wharf', ['walking'])
-    print leg.get_directions_json()
+    print(leg.get_directions_json())
 
 if __name__ == "__main__":
     main()

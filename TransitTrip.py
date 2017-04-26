@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from Leg import Leg
 from PricedTrip import PricedTrip
 from QueryParser import QueryParser
@@ -48,11 +50,11 @@ class TransitTrip(PricedTrip):
                     self._abridge_last_mile_modes(self._transit_legs[-2].get_mode())
                     modes_abridged = True
                 except IndexError:
-                    print "transit was first leg"
+                    print("transit was first leg")
 
     def get_transit_legs(self):
         return self._transit_legs
 
     def print_transit_legs(self):
         for leg in self._transit_legs:
-            print "Mode: %s\nDuration: %s\n" % (leg.get_mode(), leg.get_duration())
+            print("Mode: %s\nDuration: %s\n" % (leg.get_mode(), leg.get_duration()))

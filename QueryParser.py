@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from QueryMaps import QueryMaps
 
 
@@ -54,11 +56,7 @@ class QueryParser(QueryMaps):
 def main():
     pq = QueryParser("101 Howard Street San Francisco", "Fisherman's Wharf", "transit")
     pq.print_directions()
-    # print pq.parse_cost()
-    # print pq.parse_distance()
-    # print pq.parse_duration()
-    print len(pq.parse_segments())
-    # print pq.parse_start_coordinate()
+    print(len(pq.parse_segments()))
 
 if __name__ == '__main__':
     main()

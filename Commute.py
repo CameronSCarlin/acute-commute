@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from Leg import Leg
 from TransitTrip import TransitTrip
 from PricedTrip import PricedTrip
@@ -65,7 +67,7 @@ class Commute(PricedTrip):
 
     def get_primary_trip_object(self):
         if self._primary_mode is None:
-            print "Mode not set"
+            print("Mode not set")
             return None
         return self._trips_dict[self._primary_mode]
 
@@ -78,14 +80,14 @@ class Commute(PricedTrip):
 
 def main():
     t = Commute("101 Howard Street San Francisco", "230 Jefferson St. Redwood City, CA", ['scooter'])
-    print "Trip details:"
-    print "Primary mode: %s" % t.get_primary_mode()
+    print("Trip details:")
+    print("Primary mode: %s" % t.get_primary_mode())
     if t.get_primary_mode() == 'transit':
-        print "----------- Legs ------------"
+        print("----------- Legs ------------")
         t.get_primary_trip_object().print_transit_legs()
-        print "-" * 25
-    print "Duration: %s minutes" % t.get_duration()
-    print t.get_directions_json()
+        print("-" * 25)
+    print("Duration: %s minutes" % t.get_duration())
+    print(t.get_directions_json())
 
 if __name__ == "__main__":
     main()

@@ -1,3 +1,4 @@
+from __future__ import print_function
 
 # coding: utf-8
 from uber_rides.session import Session
@@ -36,7 +37,7 @@ def main():
     # Output: str Uber type, float distance, duration, low price, high price
     # (u'POOL', 1.77, 720, 3.0, 6.0)
 
-    print uber_estimate(start_latitude, start_longitude, end_latitude, end_longitude)
+    print(uber_estimate(start_latitude, start_longitude, end_latitude, end_longitude))
 
 if __name__ == "__main__":
     main()
