@@ -21,8 +21,6 @@ class TransitTrip(PricedTrip):
         Updates the modes allowed in the last leg based on previous_mode. This is called from
         _build_transit_legs when the leg currently being parsed is a transit leg.
 
-        BUG: What if there is interem walking b/w transit stops?
-
         :param previous_mode:
         :return: None
         """
@@ -59,10 +57,6 @@ class TransitTrip(PricedTrip):
         Otherwise the segment will have mode transit and so we append a Leg that has start a transit
         station / stop and end at transit station / stop. If Leg added is a transit Leg, we update
         available last mile modes based on the best first mile mode.
-
-        BUG: Best first mile mode not necessarily best last mile mode
-        BUG: What if there there is interim walking between two transit modes
-        FIX: Why not do if "transit" instead of if "walking". Much clearer.
 
         :return: None
         """
