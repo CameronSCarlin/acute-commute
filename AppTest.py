@@ -11,7 +11,7 @@ import requests
 # Cameron Carlin (Brawn)
 
 # use this server for prod, once it's on ec2
-SERVER = '0.0.0.0'
+SERVER = 'ec2-34-200-220-123.compute-1.amazonaws.com'
 
 
 def get_default():
@@ -21,7 +21,7 @@ def get_default():
     :return: html string
     """
     h = httplib.HTTPConnection(SERVER)
-    h.request('GET', 'http://'+SERVER+'/static/index.html')
+    h.request('GET', 'http://' + SERVER + '/static/index.html')
     resp = h.getresponse()
     out = resp.read()
     return out
@@ -39,15 +39,15 @@ def get_api_info(form_dict):
     :param form_dict: parameters for commute
     :return: JSON string
     """
-    r = requests.post("http://"+SERVER+"/trip", data=form_dict)
+    r = requests.post('http://' + SERVER + "/trip", data=form_dict)
     return r.text
 
 
 if __name__ == '__main__':
-    print "*" * 55
+    print "*" * 75
     print "test of my flask app running at ", SERVER
     print "created by Conner Ameres, Cameron Carlin, Melanie Palmer, and Will Young"
-    print "*" * 55
+    print "*" * 75
     print " "
     print "******** html form for landing page **********"
     print get_default()
