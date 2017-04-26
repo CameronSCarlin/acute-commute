@@ -2,6 +2,7 @@ from Leg import Leg
 from TransitTrip import TransitTrip
 from PricedTrip import PricedTrip
 
+
 class Commute(PricedTrip):
     """
     docstring for Trip
@@ -77,7 +78,7 @@ class Commute(PricedTrip):
 
 
 def main():
-    t = Commute("101 Howard Street San Francisco", "230 Jefferson St. Redwood City, CA", ['scooter'])
+    t = Commute('94597', '91354', ['scooter'])
     print "Trip details:"
     print "Primary mode: %s" % t.get_primary_mode()
     if t.get_primary_mode() == 'transit':
