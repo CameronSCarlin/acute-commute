@@ -2,9 +2,10 @@ from Leg import Leg
 from TransitTrip import TransitTrip
 from PricedTrip import PricedTrip
 
+
 class Commute(PricedTrip):
     """
-    docstring for Trip
+    Class to actually interface with for performing searches.
     """
     available_modes = ['transit', 'driving', 'walking', 'scooter', 'bicycling', 'uber']
 
@@ -22,12 +23,22 @@ class Commute(PricedTrip):
         self._generate_best_stats()
 
     def _build_directions(self):
+        """
+        Creates and fills self._dictionary, which is a dictionary representation of the commute.
+
+        :return: None
+        """
         d = {'start': self.get_start(), 'end': self.get_end(), 'duration': self.get_duration(),
              'mode': self.get_primary_mode(), 'price_range': self.get_price_range(), 'legs': self.get_legs(),
              'start_location': self.get_start_location(), 'end_location': self.get_end_location()}
         self.set_directions(d)
 
     def _build_legs(self):
+        """
+        Fills the legs of this commute.
+
+        :return: None
+        """
         if self._primary_mode == 'transit':
             for transit_leg in self._best_trip.get_transit_legs():
                 self._legs.append(transit_leg.get_directions())
@@ -35,11 +46,22 @@ class Commute(PricedTrip):
             self._legs.append(self._best_trip.get_directions())
 
     def _choose_best_trip(self):
+        """
+        Commute first creates the best trip for each of the acceptable modes. This function
+        chooses the fastest Commute option and sets self._primary mode accordingly.
+
+        :return: None
+        """
         times = [(key, self._trips_dict[key].get_duration()) for key in self._trips_dict.keys()
                  if self._trips_dict[key] is not None]
         self._primary_mode = min(times, key=lambda tup: tup[1])[0]
 
     def _create_original_queries(self):
+        """
+        Performs queries for all acceptable modes and stores in self._trips_dict
+
+        :return: None
+        """
         for key in self._trips_dict.keys():
             if key in self.get_acceptable_modes():
                 if key == 'transit':
@@ -48,6 +70,12 @@ class Commute(PricedTrip):
                     self._trips_dict[key] = self._leg_factory(key)
 
     def _generate_best_stats(self):
+        """
+        Once the best mode (best commute / query) has been determined, this function
+        is called to fill all information for this commute.
+
+        :return: None
+        """
         self._best_trip = self._trips_dict[self._primary_mode]
         self._duration = self._best_trip.get_duration()
         self._distance = self._best_trip.get_distance()
@@ -77,7 +105,7 @@ class Commute(PricedTrip):
 
 
 def main():
-    t = Commute("101 Howard Street San Francisco", "230 Jefferson St. Redwood City, CA", ['scooter'])
+    t = Commute('94597', '91354', ['scooter'])
     print "Trip details:"
     print "Primary mode: %s" % t.get_primary_mode()
     if t.get_primary_mode() == 'transit':

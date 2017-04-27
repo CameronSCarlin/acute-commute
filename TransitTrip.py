@@ -11,18 +11,33 @@ class TransitTrip(PricedTrip):
 
     def __init__(self, start, end, acceptable_modes, departure_time=None, arrival_time=None):
         PricedTrip.__init__(self, start, end, acceptable_modes, departure_time, arrival_time)
-        self._last_mile_modes = acceptable_modes
+        self._last_mile_modes = acceptable_modes  # acceptable modes for last leg of commute
         self.set_duration(0)
         self._transit_legs = []
         self._build_transit_legs()
 
     def _abridge_last_mile_modes(self, previous_mode):
+        """
+        Updates the modes allowed in the last leg based on previous_mode. This is called from
+        _build_transit_legs when the leg currently being parsed is a transit leg.
+
+        :param previous_mode:
+        :return: None
+        """
         last_mile_dict = {'uber': ['uber', 'walking', 'transit'], 'bicycling': ['bicycling', 'transit'],
                           'driving': ['uber', 'walking', 'transit'], 'walking': ['uber', 'walking', 'transit']}
         last_mile_modes = [mode for mode in last_mile_dict[previous_mode] if mode in self.get_acceptable_modes()]
         self._last_mile_modes = last_mile_modes
 
     def _append_leg(self, start, end, modes):
+        """
+        Adds a new leg to self._legs.
+
+        :param start: the start location of the leg
+        :param end: the end location of the leg
+        :param modes: list of acceptable modes for leg
+        :return: None
+        """
         self._transit_legs.append(Leg(start,
                                       end,
                                       modes,
@@ -31,6 +46,20 @@ class TransitTrip(PricedTrip):
         self._duration += self._transit_legs[-1].get_duration()
 
     def _build_transit_legs(self):
+        """
+        Builds self._legs by first instatiating a QueryParser  with 'transit' as only mode and
+        setting self._query_parser to this instance. self._start and self._end locations are then
+        set.
+
+        The function then iterates over every segment in the transit trip. If the travel mode of
+        the segment is walking (Google's default first/last mile mode), function appends a Leg
+        object with all acceptable modes (Note the Leg objec searches for the best mode by default).
+        Otherwise the segment will have mode transit and so we append a Leg that has start a transit
+        station / stop and end at transit station / stop. If Leg added is a transit Leg, we update
+        available last mile modes based on the best first mile mode.
+
+        :return: None
+        """
         self._original_query = QueryParser(self._start, self._end, 'transit', self._departure_time, self._arrival_time)
         self.set_start_loc_from_dict(self._original_query.parse_start_coordinate())
         self.set_end_loc_from_dict(self._original_query.parse_end_coordinate())

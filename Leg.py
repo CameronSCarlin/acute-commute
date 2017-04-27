@@ -11,6 +11,14 @@ class Leg(PricedTrip):
     """
 
     def __init__(self, start, end, acceptable_modes, departure_time=None, arrival_time=None):
+        """
+
+        :param start (str or dict): Start location of trip
+        :param end (str or dict): End location of trip
+        :param mode (str): The mode of travel for the trip
+        :param departure_time (str): Time of departure
+        :param arrival_time (str): Time of arrival
+        """
         PricedTrip.__init__(self, start, end, acceptable_modes, departure_time, arrival_time)
         self.set_duration(float('Inf'))
         self._mode = None
@@ -20,12 +28,27 @@ class Leg(PricedTrip):
         self._build_directions()
 
     def _build_directions(self):
+        """
+        Dictionary description of the Leg including start, end, steps, mode, etc. Used for
+        JSON string.
+
+        :return: None
+        """
         d = {'start': self.get_start(), 'end': self.get_end(), 'duration': self.get_duration(),
              'mode': self.get_mode(), 'price_range': self.get_price_range(), 'steps': self.get_steps(),
              'start_location': self.get_start_location(), 'end_location': self.get_end_location()}
         self.set_directions(d)
 
     def _build_steps(self, query):
+        """
+        If the leg is divided into multiple steps (as is often the case with walking, bicycling, and
+        driving trips), we convert the steps into standardized dictionary format having mode, start,
+        end, etc for each step.
+
+        :param query: QueryParser object
+        :return: None
+        """
+
         def _step_builder(single_step):
             return {'start_location': single_step['start_location'],
                     'end_location': single_step['end_location'],
@@ -35,23 +58,43 @@ class Leg(PricedTrip):
         self._steps = [_step_builder(step) for step in steps]
 
     def _check_scooter(self):
+        """
+        Instantiates a QueryParser with mode 'scooter' and checks if the duration of the QP is less than
+        duration of self._duration (the fastest trip so far). If the scooter is the fastest
+        trip, updates fields accordingly.
+
+        :return: None
+        """
         scooter_factor = 1.5
         qp = self.query_parse_factory('bicycling')
         if self._format_duration_as_minutes(qp.parse_duration()) * scooter_factor < self.get_duration():
             self._generate_stats_from_google(qp)
-            self._mode = 'scooter'
-            self._duration *= scooter_factor
+            self._mode = 'scooter'  # note we have to override bicycle manually
+            self._duration *= scooter_factor  # also set duration by scalar factor
 
     def _check_google(self, mode):
+        """
+        Checks if mode is faster than fastest mode and updates fields as needed.
+
+        :param mode:
+        :return:
+        """
         qp = self.query_parse_factory(mode)
         if self._format_duration_as_minutes(qp.parse_duration()) < self.get_duration():
             self._generate_stats_from_google(qp)
 
     def _check_uber(self):
+        """
+        Checks if Uber is faster than self._duration and updates fields accordingly.
+
+        :return: None
+        """
         try:
             start_lat, start_lon = self._start['lat'], self._start['lng']
             end_lat, end_lon = self._end['lat'], self._end['lng']
         except (KeyError, TypeError):
+            # we have to use Google to get lat / lng if not given in original Leg
+            # constructor call
             print 'using google for uber'
             qp = self.query_parse_factory('driving')
             start_dict = qp.parse_start_coordinate()
@@ -65,6 +108,11 @@ class Leg(PricedTrip):
             self._generate_stats_from_uber(uber_result, start_lat, start_lon, end_lat, end_lon)
 
     def _find_best_mode(self):
+        """
+        Checks all acceptable modes for fastest mode.
+
+        :return: None
+        """
         for mode in self._acceptable_modes:
             if mode == 'uber':
                 self._check_uber()
@@ -78,12 +126,26 @@ class Leg(PricedTrip):
                 assert False, 'No good mode given: %s given' % mode
 
     def _format_duration_as_minutes(self, duration_str):
+        """
+        Converts the duration string returned by QueryParser (eg 5 hr 7 min)
+        to minutes.
+
+        :param duration_str:
+        :return:
+        """
         result = re.findall(pattern='\\d+', string=duration_str)
         if len(result) == 2:
             return 60.0 * int(result[0]) + int(result[1])
         return float(result[0])
 
     def _generate_stats_from_google(self, query):
+        """
+        Updates all fields (trip info including duration, mode, etc) from a
+        QueryParser object.
+
+        :param query: QueryParser
+        :return: None
+        """
         self._distance = query.parse_distance()
         self._duration = self._format_duration_as_minutes(query.parse_duration())
         self.set_price_range((query.parse_cost(), query.parse_cost()))
@@ -93,6 +155,12 @@ class Leg(PricedTrip):
         self._build_steps(query)
 
     def _generate_stats_from_uber(self, query, start_lat, start_lon, end_lat, end_lon):
+        """
+        Updates all fields (trip info including duration, mode, etc) from an Uber query.
+
+        :param query: QueryParser
+        :return: None
+        """
         self._distance = query[1]
         self._duration = query[2] / 60.0
         self.set_price_range((query[3], query[4]))
