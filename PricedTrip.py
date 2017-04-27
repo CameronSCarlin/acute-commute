@@ -5,7 +5,8 @@ from Trip import Trip
 
 class PricedTrip(Trip):
     """
-    docstring for Trip
+    Intended to be superclass for TransitTrip, Leg, and Commute. Defines basic fields and their
+    getters and setters.
     """
 
     def __init__(self, start, end, acceptable_modes, departure_time=None, arrival_time=None):
@@ -56,9 +57,9 @@ class PricedTrip(Trip):
 
     def set_price_range(self, price_range):
         """
-        Price range is always (low, high) where low <= high.
+        Price range is always (low, high) where low <= high. Maybe this should be a dictionary?
         :param price_range:
-        :return:
+        :return: None
         """
         assert isinstance(price_range, tuple) and len(price_range) == 2 and price_range[0] <= price_range[1], "Ill formatted price range"
         self._price_range = price_range
@@ -72,9 +73,23 @@ class PricedTrip(Trip):
         self._end_location['lng'] = lng
 
     def set_end_loc_from_dict(self, end_dict):
+        """
+        Given a dictionary with keys 'lat' and 'lng', sets
+        the values of 'lat' and 'lng' in self.start_location.
+
+        :param end_dict: Dictionary with keys 'lat' and 'lng'
+        :return: None
+        """
         lat, lng = self._parse_loc_dict(end_dict)
         self.set_end_location(lat, lng)
 
     def set_start_loc_from_dict(self, start_dict):
+        """
+        Given a dictionary with keys 'lat' and 'lng', sets
+        the values of 'lat' and 'lng' in self._end_location.
+
+        :param end_dict: Dictionary with keys 'lat' and 'lng'
+        :return: None
+        """
         lat, lng = self._parse_loc_dict(start_dict)
         self.set_start_location(lat, lng)
