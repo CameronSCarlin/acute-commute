@@ -91,7 +91,7 @@ class Leg(PricedTrip):
         """
         try:
             start_lat, start_lon = self.get_start()['lat'], self.get_start()['lng']
-            end_lat, end_lon = self.get_end()['lat'], self.set_end()['lng']
+            end_lat, end_lon = self.get_end()['lat'], self.get_end()['lng']
         except (KeyError, TypeError):
             # we have to use Google to get lat / lng if not given in original Leg
             # constructor call
