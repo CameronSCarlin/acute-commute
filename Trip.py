@@ -13,11 +13,11 @@ class Trip:
         :param departure_time (str): Time of departure
         :param arrival_time (str): Time of arrival
         """
-        if type(acceptable_modes) is list:
+        if isinstance(acceptable_modes, list):
             self._acceptable_modes = acceptable_modes
-        elif type(acceptable_modes) is tuple:
+        elif isinstance(acceptable_modes, tuple):
             self._acceptable_modes = [mode for mode in acceptable_modes]
-        elif type(acceptable_modes) is str:
+        elif isinstance(acceptable_modes, (str, unicode)):
             self._acceptable_modes = [acceptable_modes]
         else:
             assert False, "acceptable_modes shold be list, tuple, or string. Got %s" % type(acceptable_modes)
