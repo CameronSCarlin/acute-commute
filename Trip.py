@@ -22,12 +22,12 @@ class Trip:
         else:
             assert False, "acceptable_modes shold be list, tuple, or string. Got %s" % type(acceptable_modes)
 
-        assert isinstance(start, (str, dict)), "start should be str or dict got %s" % type(start)
-        assert isinstance(end, (str, dict)), "start should be str or dict got %s" % type(end)
+        assert isinstance(start, (str, dict, unicode)), "start should be str or dict got %s" % type(start)
+        assert isinstance(end, (str, dict, unicode)), "start should be str or dict got %s" % type(end)
         if departure_time is not None:
-            assert isinstance(departure_time, str), "departure_time should be str. Got %s" % type(departure_time)
+            assert isinstance(departure_time, str, unicode), "departure_time should be str. Got %s" % type(departure_time)
         if arrival_time is not None:
-            assert isinstance(arrival_time, str), "arrival_time should be str. Got %s" % type(arrival_time)
+            assert isinstance(arrival_time, str, unicode), "arrival_time should be str. Got %s" % type(arrival_time)
 
         self._start = start
         self._end = end
