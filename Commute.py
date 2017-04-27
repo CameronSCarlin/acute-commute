@@ -102,7 +102,6 @@ class Commute(PricedTrip):
 
     def _transit_trip_factory(self):
         temp_modes = [mode for mode in self.get_acceptable_modes() if mode != 'transit']
-        print temp_modes
         return TransitTrip(self._start, self._end, self.get_acceptable_modes(),
                            self._departure_time, self._arrival_time)
 
