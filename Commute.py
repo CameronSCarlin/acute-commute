@@ -101,11 +101,14 @@ class Commute(PricedTrip):
         return Leg(self._start, self._end, mode, self._departure_time, self._arrival_time)
 
     def _transit_trip_factory(self):
-        return TransitTrip(self._start, self._end, self.get_acceptable_modes(), self._departure_time, self._arrival_time)
+        temp_modes = [mode for mode in self.get_acceptable_modes() if mode != 'transit']
+        print temp_modes
+        return TransitTrip(self._start, self._end, self.get_acceptable_modes(),
+                           self._departure_time, self._arrival_time)
 
 
 def main():
-    t = Commute('101 Howard Street San Francisco', 'Broadway Plaza, Walnut Creek, CA', ['bicycling', 'transit'])
+    t = Commute('101 Howard Street San Francisco', 'Broadway Plaza, Walnut Creek, CA', ['transit', 'walking', 'bicycling'])
     print "Trip details:"
     print "Primary mode: %s" % t.get_primary_mode()
     if t.get_primary_mode() == 'transit':
