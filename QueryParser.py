@@ -44,7 +44,7 @@ class QueryParser(QueryMaps):
 
         :return: str representation of duration of trip
         """
-        return self._dir_result['legs'][0]['duration']['text']
+        return self._dir_result['legs'][0]['duration']['value'] / 60.0
 
     def parse_modes(self):
         """

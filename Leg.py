@@ -67,10 +67,10 @@ class Leg(PricedTrip):
         """
         scooter_factor = 1.5
         qp = self.query_parse_factory('bicycling')
-        if self._format_duration_as_minutes(qp.parse_duration()) * scooter_factor < self.get_duration():
+        if qp.parse_duration() * scooter_factor < self.get_duration():
             self._generate_stats_from_google(qp)
             self._mode = 'scooter'  # note we have to override bicycle manually
-            self._duration *= scooter_factor  # also set duration by scalar factor
+            self.set_duration(self.get_duration() * scooter_factor)  # also set duration by scalar factor
 
     def _check_google(self, mode):
         """
@@ -80,7 +80,7 @@ class Leg(PricedTrip):
         :return:
         """
         qp = self.query_parse_factory(mode)
-        if self._format_duration_as_minutes(qp.parse_duration()) < self.get_duration():
+        if qp.parse_duration() < self.get_duration():
             self._generate_stats_from_google(qp)
 
     def _check_uber(self):
@@ -90,8 +90,8 @@ class Leg(PricedTrip):
         :return: None
         """
         try:
-            start_lat, start_lon = self._start['lat'], self._start['lng']
-            end_lat, end_lon = self._end['lat'], self._end['lng']
+            start_lat, start_lon = self.get_start()['lat'], self.get_start()['lng']
+            end_lat, end_lon = self.get_end()['lat'], self.get_end()['lng']
         except (KeyError, TypeError):
             # we have to use Google to get lat / lng if not given in original Leg
             # constructor call
@@ -104,7 +104,7 @@ class Leg(PricedTrip):
 
         uber_result = Uber_API.uber_estimate(start_lat, start_lon, end_lat, end_lon)
 
-        if uber_result[2] < self._duration:
+        if uber_result[2] < self.get_duration():
             self._generate_stats_from_uber(uber_result, start_lat, start_lon, end_lat, end_lon)
 
     def _find_best_mode(self):
@@ -113,7 +113,7 @@ class Leg(PricedTrip):
 
         :return: None
         """
-        for mode in self._acceptable_modes:
+        for mode in self.get_acceptable_modes():
             if mode == 'uber':
                 self._check_uber()
             elif mode == 'lyft':
@@ -125,19 +125,6 @@ class Leg(PricedTrip):
             else:
                 assert False, 'No good mode given: %s given' % mode
 
-    def _format_duration_as_minutes(self, duration_str):
-        """
-        Converts the duration string returned by QueryParser (eg 5 hr 7 min)
-        to minutes.
-
-        :param duration_str:
-        :return:
-        """
-        result = re.findall(pattern='\\d+', string=duration_str)
-        if len(result) == 2:
-            return 60.0 * int(result[0]) + int(result[1])
-        return float(result[0])
-
     def _generate_stats_from_google(self, query):
         """
         Updates all fields (trip info including duration, mode, etc) from a
@@ -146,8 +133,8 @@ class Leg(PricedTrip):
         :param query: QueryParser
         :return: None
         """
-        self._distance = query.parse_distance()
-        self._duration = self._format_duration_as_minutes(query.parse_duration())
+        self.set_distance(query.parse_distance())
+        self.set_duration(query.parse_duration())
         self.set_price_range((query.parse_cost(), query.parse_cost()))
         self._mode = lower(query.parse_modes()[0])
         self.set_start_loc_from_dict(query.parse_start_coordinate())
@@ -162,7 +149,7 @@ class Leg(PricedTrip):
         :return: None
         """
         self._distance = query[1]
-        self._duration = query[2] / 60.0
+        self.set_duration(query[2] / 60.0)
         self.set_price_range((query[3], query[4]))
         self._mode = 'uber'
         self._steps = ['Hail Uber using Uber app',
