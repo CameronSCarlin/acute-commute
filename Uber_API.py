@@ -26,6 +26,27 @@ def uber_estimate(start_lat, start_long, end_lat, end_long):
             estimate['high_estimate'])
 
 
+def uber_wait_time(start_lat, start_long):
+    session = Session(server_token=keys.uber)
+    client = UberRidesClient(session)
+    response = client.get_pickup_time_estimates(start_lat, start_long)
+    return response.json.get('times')[0]['estimate']
+    #products = response.json.get('products')
+    # product_id = products[0].get('product_id')
+    # estimate = client.get_price_estimates(
+    #     start_latitude=start_lat,
+    #     start_longitude=start_long,
+    #     end_latitude=end_lat,
+    #     end_longitude=end_long,
+    #     seat_count=1
+    # ).json['prices'][0]
+    # Uber Type, Distance (miles, float), Duration (seconds, float), low $, high $
+    # return (estimate['display_name'],
+    #         estimate['distance'],
+    #         estimate['duration'],
+    #         estimate['low_estimate'],
+    #         estimate['high_estimate'])
+
 def main():
     # Input: float start_lat, start_long, end_lat, end_long
     # Inputs
@@ -37,6 +58,7 @@ def main():
     # (u'POOL', 1.77, 720, 3.0, 6.0)
 
     print uber_estimate(start_latitude, start_longitude, end_latitude, end_longitude)
+    uber_wait_time(start_latitude, start_longitude)
 
 if __name__ == "__main__":
     main()
