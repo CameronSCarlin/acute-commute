@@ -24,8 +24,9 @@ class TransitTrip(PricedTrip):
         :param previous_mode:
         :return: None
         """
-        last_mile_dict = {'uber': ['uber', 'walking', 'transit'], 'bicycling': ['bicycling', 'transit'],
-                          'driving': ['uber', 'walking', 'transit'], 'walking': ['uber', 'walking', 'transit']}
+        last_mile_dict = {'uber': ['uber', 'walking', 'transit', 'scooter'], 'bicycling': ['bicycling', 'transit'],
+                          'driving': ['uber', 'walking', 'transit', 'scooter'], 'walking': ['uber', 'walking', 'transit'],
+                          'scooter': ['uber', 'scooter']}
         last_mile_modes = [mode for mode in last_mile_dict[previous_mode] if mode in self.get_acceptable_modes()]
         self._last_mile_modes = last_mile_modes
 

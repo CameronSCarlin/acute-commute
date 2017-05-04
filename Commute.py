@@ -106,7 +106,7 @@ class Commute(PricedTrip):
 
 
 def main():
-    t = Commute('101 Howard Street San Francisco', 'Broadway Plaza, Walnut Creek, CA', ['transit', 'walking', 'bicycling'])
+    t = Commute('101 Howard Street San Francisco', 'Broadway Plaza, Walnut Creek, CA', ['transit', 'scooter'])
     print "Trip details:"
     print "Primary mode: %s" % t.get_primary_mode()
     if t.get_primary_mode() == 'transit':
