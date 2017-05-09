@@ -1,5 +1,11 @@
 // function
 
+var jeopardy = new Audio('./static/jeopardy.mp3');
+jeopardy.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+
 function hideFormCard(formData){
   // form-card -> calculating-card
   $(this).hide();
@@ -49,6 +55,7 @@ function hideCalculatingCard(data){
   $('#results-card')
     .removeAttr('hidden')
     .addClass('animated fadeIn');
+  jeopardy.stop();
 }
 
 $('#directions-form').submit(function(e) {
@@ -62,4 +69,5 @@ $('#directions-form').submit(function(e) {
   .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', hideFormCardPartial);
 
   e.preventDefault();
+  jeopardy.play();
 });
