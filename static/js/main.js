@@ -15,11 +15,13 @@ function hideFormCard(formData){
     data: formData,
     dataType: 'json',
     success: function(data){
-      ga.send('send', 'event', 'directions', 'async', 'response', '1');
+      ga('send', 'event', 'directions', 'async', 'response', '1');
+      // console.log('ga: async response 1 sent');
       hCC(data);
     },
     error: function(){
-      ga.send('send', 'event', 'directions', 'async', 'response', '0');
+      ga('send', 'event', 'directions', 'async', 'response', '0');
+      // console.log('ga: async response 0 sent');
       console.log('functionality not implemented');
     }
   })
@@ -61,7 +63,8 @@ $('#directions-form').submit(function(e) {
   $('#form-card')
   .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', hideFormCardPartial);
 
-  ga.send('send', 'event', 'directions', 'async', 'request');
+  ga('send', 'event', 'directions', 'async', 'request');
+  // console.log('ga: async request sent');
 
   e.preventDefault();
 });

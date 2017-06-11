@@ -14,7 +14,7 @@
   <!-- bower scripts -->
   <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/static/bower_components/materialize/dist/js/materialize.min.js"></script>
-  
+
   <!-- Google Analytics Tracking Script -->
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -26,7 +26,7 @@
     ga('send', 'pageview');
 
   </script>
-  
+
 </head>
 
 <body>
@@ -35,7 +35,7 @@
       <div class="col s12" id="card-holder">
 
         <!-- form-card -->
-        <div class="card blue-grey darken-1" id="form-card" onmouseover="ga.event('send', 'event', 'form-card', 'mouseover'); this.onmouseover = null;">
+        <div class="card blue-grey darken-1" id="form-card" onmouseover="ga('send', 'event', 'form-card', 'mouseover'); console.log('event sent'); this.onmouseover = null;">
           <div class="card-content white-text">
             <span class="card-title">Acute Commute</span>
             <!-- directions-form -->
@@ -92,7 +92,7 @@
         </div>
 
         <!-- results-card -->
-        <div class="card blue-grey darken-1" id="results-card" onmouseover="ga.event('send', 'event', 'results-card', 'mouseover'); this.onmouseover = null;" hidden>
+        <div class="card blue-grey darken-1" id="results-card" onmouseover="ga('send', 'event', 'results-card', 'mouseover'); console.log('event sent'); this.onmouseover = null;" hidden>
           <div class="card-content white-text">
             <span class="card-title">Resulting Trip</span>
               <!-- TODO: map-view -->
