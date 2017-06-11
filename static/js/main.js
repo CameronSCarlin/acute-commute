@@ -1,5 +1,3 @@
-// function
-
 function hideFormCard(formData){
   // form-card -> calculating-card
   $(this).hide();
@@ -17,9 +15,11 @@ function hideFormCard(formData){
     data: formData,
     dataType: 'json',
     success: function(data){
+      ga.send('send', 'event', 'directions', 'async', 'response', '1');
       hCC(data);
     },
     error: function(){
+      ga.send('send', 'event', 'directions', 'async', 'response', '0');
       console.log('functionality not implemented');
     }
   })
@@ -60,6 +60,8 @@ $('#directions-form').submit(function(e) {
   hideFormCardPartial = hideFormCard.bind(this, formData)
   $('#form-card')
   .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', hideFormCardPartial);
+
+  ga.send('send', 'event', 'directions', 'async', 'request');
 
   e.preventDefault();
 });

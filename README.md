@@ -3,7 +3,7 @@
 Google Maps and other apps that recommend routes based on start and end location tend to fail when the middle leg of the trip involves public transit. Getting to and from the endpoints of the public transit route is known as the first mile last mile problem. By default, Google only gives walking as an option to get to and from a transit stop. Our application considers all forms of travel to and from the transit stops to provide additional options and give the shortest possible travel time for the trip.
 
 ## Deployed Instance
-http://ec2-34-205-89-106.compute-1.amazonaws.com/
+http://ec2-54-83-165-141.compute-1.amazonaws.com/
 
 ## File Breakdown
 ### Front-end

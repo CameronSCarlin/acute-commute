@@ -35,7 +35,7 @@
       <div class="col s12" id="card-holder">
 
         <!-- form-card -->
-        <div class="card blue-grey darken-1" id="form-card">
+        <div class="card blue-grey darken-1" id="form-card" onmouseover="ga.event('send', 'event', 'form-card', 'mouseover'); this.onmouseover = null;">
           <div class="card-content white-text">
             <span class="card-title">Acute Commute</span>
             <!-- directions-form -->
@@ -92,7 +92,7 @@
         </div>
 
         <!-- results-card -->
-        <div class="card blue-grey darken-1" id="results-card" hidden>
+        <div class="card blue-grey darken-1" id="results-card" onmouseover="ga.event('send', 'event', 'results-card', 'mouseover'); this.onmouseover = null;" hidden>
           <div class="card-content white-text">
             <span class="card-title">Resulting Trip</span>
               <!-- TODO: map-view -->
