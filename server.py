@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, render_template
 from Commute import Commute
 app = Flask(__name__)
 
@@ -16,9 +16,17 @@ def trip():
     return comm.get_directions_json()
 
 
-@app.route("/")
-def main():
-    return send_file('./static/index.html')
+@app.route("/v1")
+def v1():
+    return render_template('index.html', bg_color='red')
+
+@app.route("/v2")
+def v2():
+    return render_template('index.html', bg_color='blue')
+
+@app.route("/v3")
+def v3():
+    return render_template('index.html', bg_color='green')
 
 
 if __name__ == "__main__":
