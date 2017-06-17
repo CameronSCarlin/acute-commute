@@ -16,6 +16,10 @@ def trip():
     return comm.get_directions_json()
 
 
+@app.route("/")
+def root():
+    return render_template('index.html', bg_color='white')
+
 @app.route("/v1")
 def v1():
     return render_template('index.html', bg_color='red')
