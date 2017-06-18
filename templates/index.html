@@ -19,7 +19,7 @@
   '" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
   </script><script>utmx('url','A/B');</script>
   <!-- End of Google Analytics Content Experiment code -->
-  
+
   <!-- bower stylesheets -->
   <link rel="stylesheet" href="/static/bower_components/animate.css/animate.min.css">
   <link rel="stylesheet" href="/static/bower_components/materialize/dist/css/materialize.min.css">
@@ -39,6 +39,17 @@
     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
     ga('create', 'UA-100558691-1', 'auto');
+
+    // custom dimensions
+    ga('set', 'local_date_and_time', new Date());
+    ga('set', 'local_hour', new Date().getHours());
+
+    function getTimeZone() {
+      return /\((.*)\)/.exec(new Date().toString())[1];
+    }
+
+    ga('set', 'local_timezone', getTimeZone());
+    
     ga('send', 'pageview');
   </script>
 </head>
