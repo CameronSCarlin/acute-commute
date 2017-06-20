@@ -41,15 +41,19 @@
     ga('create', 'UA-100558691-1', 'auto');
 
     // custom dimensions
-    ga('set', 'local_date_and_time', new Date());
-    ga('set', 'local_hour', new Date().getHours());
+		var local_date_and_time = new Date()
+    ga('set', 'local_date_and_time', local_date_and_time);
+
+		var local_hour = new Date().getHours()
+    ga('set', 'local_hour', local_hour);
 
     function getTimeZone() {
       return /\((.*)\)/.exec(new Date().toString())[1];
     }
 
-    ga('set', 'local_timezone', getTimeZone());
-    
+		var local_timezone = getTimeZone()
+    ga('set', 'local_timezone', local_timezone);
+
     ga('send', 'pageview');
   </script>
 </head>
