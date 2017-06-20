@@ -40,19 +40,18 @@
 
     ga('create', 'UA-100558691-1', 'auto');
 
-    // custom dimensions
 		var local_date_and_time = new Date()
-    ga('set', 'local_date_and_time', local_date_and_time);
+    ga('set', 'dimension1', local_date_and_time);
 
 		var local_hour = new Date().getHours()
-    ga('set', 'local_hour', local_hour);
+    ga('set', 'dimension2', local_hour);
 
     function getTimeZone() {
       return /\((.*)\)/.exec(new Date().toString())[1];
     }
 
 		var local_timezone = getTimeZone()
-    ga('set', 'local_timezone', local_timezone);
+    ga('set', 'dimension3', local_timezone);
 
     ga('send', 'pageview');
   </script>
